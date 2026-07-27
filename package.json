@@ -1,0 +1,11 @@
+{
+  "name": "ts-design-patterns",
+  "version": "1.0.0",
+  "description": "A collection of design and software architecture patterns in TypeScript",
+  "license": "ISC",
+  "author": "ggod",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.1.1"
+  }
+}

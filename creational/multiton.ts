@@ -8,14 +8,12 @@ class EagerMultiton {
     private static instances: Map<MultitonInstance, EagerMultiton> = new Map();
 
     private static initialize() {
-        // We create all the instances during initialization...
         this.instances.set(MultitonInstance.One, new EagerMultiton('one'));
         this.instances.set(MultitonInstance.Two, new EagerMultiton('two'));
         this.instances.set(MultitonInstance.Three, new EagerMultiton('three'));
     }
 
     static {
-        // ...which happens immediately after the class is initialized
         this.initialize();
     }
 
@@ -24,7 +22,6 @@ class EagerMultiton {
     static getInstance(instance: MultitonInstance) {
         if (!this.instances.has(instance)) throw new Error('No instance found');
 
-        // We can then access all of the instances just by using their key
         return this.instances.get(instance)!;
     }
 
@@ -46,9 +43,7 @@ class LazyMultiton {
     private constructor (private instance: MultitonInstance) {}
     
     static getInstance(instance: MultitonInstance) {
-        // A lazy multiton uses the Lazy initialization pattern...
         if (!this.instances.has(instance)) {
-            // ...and only creates the instances when they are actually needed
             this.instances.set(instance, new LazyMultiton(instance));
         }
 

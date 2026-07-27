@@ -3,7 +3,6 @@ interface Coffee {
     getIngredients(): string;
 }
 
-// If we want to change behavior of simple coffee without affecting existing instances...
 class SimpleCoffee implements Coffee {
     getCost(): number {
         return 3.99;
@@ -14,9 +13,7 @@ class SimpleCoffee implements Coffee {
     }
 }
 
-// ...we can create a decorator...
 class CoffeeDecorator implements Coffee {
-    // ...which takes an instance of the original class...
     constructor (private coffee: Coffee) {}
 
     getCost(): number {
@@ -29,7 +26,6 @@ class CoffeeDecorator implements Coffee {
 }
 
 class CoffeeWithMilk extends CoffeeDecorator {
-    // ...and allows us to modify its behavior
     override getCost(): number {
         return super.getCost() + 1;
     }
@@ -43,10 +39,8 @@ function printInformation(coffee: Coffee) {
     console.log(`Cost: ${coffee.getCost()}, Ingredients: ${coffee.getIngredients()}`);
 }
 
-// This pattern is very useful and it allows us to have both a regular instance...
 const coffee = new SimpleCoffee();
 printInformation(coffee);
 
-// ...and a decorated one
 const coffeeWithMilk = new CoffeeWithMilk(coffee);
 printInformation(coffeeWithMilk);

@@ -3,7 +3,6 @@ interface BankAccount {
     withdraw(amount: number): void;
 }
 
-// If we have an object...
 class SimpleBankAccount implements BankAccount {
     constructor (public funds: number) {}
 
@@ -22,13 +21,10 @@ class SimpleBankAccount implements BankAccount {
     }
 }
 
-// ...we can create a proxy to it...
 class SecureBankAccountProxy implements BankAccount {
     constructor (private bankAccount: BankAccount, private authenticated: boolean) {}
 
     deposit(amount: number) {
-        // ...which can control access to it
-        // It can be any kind of control, from authentication (like this example), through quotas, policies, to rate limiting
         if (!this.authenticated) {
             console.log('You cannot access this bank account!');
             return;

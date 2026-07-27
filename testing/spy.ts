@@ -10,7 +10,6 @@ class OrderService {
     }
 }
 
-// If we want to check what parameters are passed into a tested service, we can use a spy
 class SpyEmailService implements EmailService {
     public recipients: string[] = [];
 
@@ -19,7 +18,6 @@ class SpyEmailService implements EmailService {
     }
 }
 
-// A simple helper function to assert, completely optional
 function assertEquals(expected: any, value: any) {
     if (expected !== value) {
         throw new Error('Expected ' + expected + ', found ' + value);

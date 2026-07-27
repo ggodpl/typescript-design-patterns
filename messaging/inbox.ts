@@ -25,7 +25,6 @@ class SimpleMessageBroker {
 
 class InventoryService {
     private stock: number = 10;
-    // We store a list of all messages we have processed...
     private inbox: number[] = [];
 
     constructor (private broker: SimpleMessageBroker) {
@@ -33,17 +32,13 @@ class InventoryService {
     }
 
     handle(message: Message) {
-        // ...and reject duplicates
-        // This allows us to achieve idempotency
         if (this.inbox.includes(message.messageId)) {
             console.log('Message ' + message.messageId + ' already processed!');
             return;
         }
 
-        // We push the message into the inbox...
         this.inbox.push(message.messageId);
 
-        // ...and process it
         console.log('Processing a new message: ' + message.messageId);
         this.stock -= message.stockNeeded;
     }

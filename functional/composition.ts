@@ -17,29 +17,22 @@ const user: User = {
     email: 'william.williams@example.mail'
 };
 
-// Given a few functions...
 const updateBasicInfo = (update: Partial<BasicInfo>) => (user: User) => ({
     ...user,
     ...update
 });
 
-// ...that transform a value of type T into a different value of the same type (in this case User)...
 const updateContactInfo = (update: Partial<ContactInfo>) => (user: User) => ({
     ...user,
     ...update
 });
 
-// ...we can easily compose all of these functions...
 const compose = <T>(...functions: ((v: T) => T)[]) => (value: T) => functions.reduceRight((result, fn) => fn(result), value);
 
-// ...into a single function...
 const composedUpdate = compose(updateBasicInfo({ lastName: 'Johns' }), updateContactInfo({ phoneNumber: '123-456-789' }));
-// ...and use it as such
 const newUser = composedUpdate(user);
 console.log(newUser);
 
-// This specific implementation only allows functions that take and return the same type
-// If we want something more flexible, we can use a little bit of conditional typing and type inference
 type Fn = (arg: any) => any;
 
 type Compose<Fns extends readonly Fn[]> = Fns extends readonly [infer F extends Fn]

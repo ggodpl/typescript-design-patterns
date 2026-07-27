@@ -7,8 +7,6 @@ interface UserCreationRequest {
 }
 
 class UserService {
-    // Instead of having methods with a large number of parameters
-    // we can create a Parameter Object
     createUser(request: UserCreationRequest) {
         console.log('Creating a new user');
         console.log('First and last name: ' + request.firstName + ' ' + request.lastName);

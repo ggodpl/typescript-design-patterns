@@ -15,7 +15,6 @@ class TestEmployeeBuilder {
     public email: string = 'victor@example.mail';
     public salary: number = 12000;
 
-    // If we use the Builder pattern with test objects...
     withSalary(salary: number) {
         this.salary = salary;
         return this;
@@ -31,13 +30,10 @@ class TestEmployeeBuilder {
     }
 }
 
-// ...we get the Test Data Builder...
 const employeeBuilder = new TestEmployeeBuilder();
-// ...which allows us to create multiple...
 const employee1 = employeeBuilder.build();
 employee1.log();
 
-// ...different test objects easily
 const employee2 = employeeBuilder
     .withEmail('test@email.com')
     .withSalary(14500)

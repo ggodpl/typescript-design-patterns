@@ -13,7 +13,6 @@ class User {
 }
 
 class UserMother {
-    // We can use static factories to create example objects...
     static admin() {
         return new User('admin@example.mail', UserRole.Admin);
     }
@@ -23,7 +22,6 @@ class UserMother {
     }
 }
 
-// ...which we can easily use during testing
 const adminUser = UserMother.admin();
 adminUser.print();
 

@@ -1,5 +1,4 @@
 class Person {
-    // If we have classes which take a lot of arguments in the constructor...
     constructor (
         public name: string,
         public age: number,
@@ -13,7 +12,6 @@ class Person {
     }
 }
 
-// ...we can use a builder instead of passing them all manually
 class PersonBuilder {
     private name!: string;
     private age!: number;
@@ -21,7 +19,6 @@ class PersonBuilder {
     private phoneNumber?: string;
     private email?: string;
 
-    // The builder has methods for setting specific parts of the original class...
     setName(name: string) {
         this.name = name;
     }
@@ -42,7 +39,6 @@ class PersonBuilder {
         this.email = email;
     }
 
-    // ...and a build method which returns the constructed class
     build() {
         if (this.name === undefined) throw new Error('Name is missing!');
 

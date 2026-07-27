@@ -19,7 +19,6 @@ abstract class Handler implements ChainedHandler {
 
     setNextHandler(handler: ChainedHandler) {
         this.nextHandler = handler;
-        // A nice fluent API for adding next handlers easier
         return handler;
     }
 
@@ -63,10 +62,6 @@ class Tier3Handler extends Handler {
             return;
         }
 
-        // Note: Tier 3 handler does not know that it is the last tier
-        // It still tries to pass the request down further
-        // This decouples all tiers of handlers and lets us add a next handler
-        // without modyfing existing ones
         this.next(request);
     }
 }

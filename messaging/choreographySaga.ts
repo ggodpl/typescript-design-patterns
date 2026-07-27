@@ -19,16 +19,13 @@ interface Subscriber {
     handle(message: Message): void;
 }
 
-// A simplified message broker
 class MessageBroker {
     private subscribers: Set<Subscriber> = new Set();
     
-    // It can accept subscribers...
     subscribe(subscriber: Subscriber) {
         this.subscribers.add(subscriber);
     }
 
-    // ...and send messages to them
     publish(message: Message) {
         for (const subscriber of this.subscribers) {
             subscriber.handle(message);
@@ -39,13 +36,10 @@ class MessageBroker {
 class OrderService implements Subscriber {
     private orderId: number = 1;
 
-    // Each service gets the message broker...
     constructor (private broker: MessageBroker) {
-        // ...registers itself...
         this.broker.subscribe(this);
     }
 
-    // ...and handles its own messages and state
     handle(message: Message) {
         switch (message.type) {
             case MessageType.PaymentFailed:
@@ -54,7 +48,6 @@ class OrderService implements Subscriber {
             case MessageType.PaymentSucceeded:
                 console.log(`Order ${message.orderId} succeeded`);
 
-                // Some messages can publish other messages, thus creating a saga
                 this.broker.publish({
                     type: MessageType.OrderCompleted,
                     orderId: message.orderId
@@ -73,7 +66,6 @@ class OrderService implements Subscriber {
 
     createOrder() {
         console.log('Creating a new order');
-        // Start the saga by sending the first message
         this.broker.publish({
             type: MessageType.OrderCreated,
             orderId: this.getOrderId()
@@ -111,8 +103,6 @@ class StockService implements Subscriber {
                     });
                 }
                 return;
-            // Since all communication is done exclusively via messages,
-            // all steps also listen for failures of their successors to return state
             case MessageType.PaymentFailed:
                 console.log('Releasing stock...');
                 

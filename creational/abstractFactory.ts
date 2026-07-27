@@ -6,8 +6,6 @@ interface Motorcycle {
     ride(): void;
 }
 
-// This factory is the Abstract factory
-// It can create families of similar products...
 interface VehicleFactory {
     createCar(): Car;
     createMotorcycle(): Motorcycle;
@@ -37,7 +35,6 @@ class HondaMotorcycle implements Motorcycle {
     }
 }
 
-// ...such as BMW vehicles...
 class BMWFactory implements VehicleFactory {
     createCar(): Car {
         return new BMWCar();
@@ -48,7 +45,6 @@ class BMWFactory implements VehicleFactory {
     }
 }
 
-// ...or Honda ones
 class HondaFactory implements VehicleFactory {
     createCar(): Car {
         return new HondaCar();
@@ -59,7 +55,6 @@ class HondaFactory implements VehicleFactory {
     }
 }
 
-// We can use it to create different products from the same family
 function useFactory(factory: VehicleFactory) {
     const car = factory.createCar();
     const motorcycle = factory.createMotorcycle();
@@ -82,7 +77,5 @@ function selectFactory(brand: Brand): VehicleFactory {
     }
 }
 
-// This creates just BMW vehicles
 useFactory(selectFactory(Brand.BMW));
-// Or just Honda vehicles
 useFactory(selectFactory(Brand.Honda));

@@ -6,13 +6,9 @@ class Fruit {
     static getFruit(type: string) {
         // Lazy initialization happens here
         if (!this.types.has(type)) {
-            // If this type of fruit does not exist when requested,
-            // we create it...
             this.types.set(type, new Fruit(type));
         }
 
-        // ...and return it when needed
-        // This implementation is also a proper example of the Multiton pattern
         return this.types.get(type)!;
     }
 

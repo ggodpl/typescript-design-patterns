@@ -6,13 +6,8 @@ parentPort.on('message', async ({ id, method, args }) => {
     try {
         let result;
 
-        // We simply check the method and calculate accordingly
-        // This could be done in a nicer way (like registries),
-        // especially if there were more methods, but for 3 methods this works fine
         switch (method) {
             case 'add':
-                // Since these calculations are pretty much instant we add a little bit of sleep to them
-                // This way it doesn't return instantly
                 await sleep(1000);
                 result = args[0] + args[1];
                 break;

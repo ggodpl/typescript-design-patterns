@@ -21,9 +21,7 @@ class EventStore {
     private transactionId: number = 1;
 
     enter(...events: Event[]) {
-        // When we enter events they all get the same transaction date...
         const now = Date.now();
-        // ...and transaction ID
         const transaction = this.transactionId++;
 
         for (const event of events) {
@@ -38,13 +36,10 @@ class EventStore {
         }
     }
 
-    // We can either sort events by the transaction date (when they were entered)...
     byTransaction() {
         return [...this.events].sort((a, b) => a.transactionId === b.transactionId ? a.storePosition - b.storePosition : a.transactionId - b.transactionId);
     }
 
-    // ...or by their valid date (when they became valid)
-    // This is lets us achieve bitemporal modeling...
     byValid() {
         return [...this.events].sort((a, b) => a.validDate === b.validDate ? a.storePosition - b.storePosition : a.validDate - b.validDate);
     }
@@ -76,8 +71,6 @@ store.enter(event1, erroneousEvent);
 
 await new Promise(resolve => setTimeout(resolve, 100));
 
-// ...which is very useful when correcting past events
-// Since events are immutable, we create a correction event in a later transaction...
 const correctionEvent: Event = {
     payload: {
         type: 'BalanceSet',
@@ -85,7 +78,6 @@ const correctionEvent: Event = {
     },
     eventId: 3,
     accountId: 1,
-    // ...that has the same valid date as the erroneous event
     validDate: erroneousEvent.validDate
 };
 

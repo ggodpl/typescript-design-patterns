@@ -3,12 +3,10 @@ interface Request {
     body: string;
 }
 
-// If we have multiple APIs...
 interface LegacyRequestHandler {
     process(path: string, body: string): void;
 }
 
-// ...that are incompatible with each other...
 interface RequestHandler {
     handle(request: Request): void;
 }
@@ -25,7 +23,6 @@ class ModernAPI implements RequestHandler {
     }
 }
 
-// ...we can create an adapter which translates from one to the other
 class LegacyRequestHandlerAdapter implements RequestHandler {
     constructor (private legacyAPI: LegacyRequestHandler) {}
     
@@ -46,12 +43,10 @@ class AdapterClient {
         }
 
         const modernAPI = new ModernAPI();
-        // This approach allows us to use both...
         this.executeModernRequest(request, modernAPI);
         
         const legacyAPI = new LegacyAPI();
         const legacyAPIAdapter = new LegacyRequestHandlerAdapter(legacyAPI);
-        // ...even if one is incompatible with our client
         this.executeModernRequest(request, legacyAPIAdapter);
     }
 }

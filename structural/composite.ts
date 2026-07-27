@@ -15,15 +15,11 @@ class File implements FileSystemComponent {
     }
 }
 
-// The directory is a file system components...
 class Directory implements FileSystemComponent {
-    // ...and holds other file system components
-    // This means that it's both a component and a composition of components...
     private components: FileSystemComponent[] = [];
 
     constructor (private name: string) {}
 
-    // ...and is treated as both at the same time
     display() {
         console.log('Directory: ' + this.name);
         for (const component of this.components) {

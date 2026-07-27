@@ -20,7 +20,6 @@ class Account {
         this.opened = false;
     }
     
-    // Only events can ever modify state
     private apply(event: AccountEvent) {
         switch (event.type) {
             case AccountEventType.AccountOpened:
@@ -38,15 +37,12 @@ class Account {
     }
 
     applyEvents(events: AccountEvent[]) {
-        // We reset the state before applying events
         this.reset();
         for (const event of events) {
             this.apply(event);
         }
     }
 
-    // Commands generate additional events
-    // In most implementations event generation would probably be decoupled from event consumption
     deposit(amount: number): AccountEvent[] {
         if (!this.opened) throw new Error('Account not opened');
         if (amount <= 0) throw new Error('Invalid amount');
@@ -97,7 +93,6 @@ class Account {
 const account = new Account();
 const history = [];
 
-// Every account operation is tracked in the history...
 history.push(...account.open(1, 100));
 
 account.applyEvents(history);
@@ -108,7 +103,6 @@ account.applyEvents(history);
 
 history.push(...account.deposit(100));
 
-// ...so we can apply it every time
 account.applyEvents(history);
 
 console.log(account.getState());

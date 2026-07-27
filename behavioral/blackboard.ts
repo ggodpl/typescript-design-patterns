@@ -1,14 +1,10 @@
 class Blackboard {
-    // unknown ignores type safety a little bit
-    // A better solution would be to use an interface with all fact types
-    // or assume a unified type for all facts
     private facts: Map<string, unknown> = new Map();
 
     getFact(name: string): unknown {
         return this.facts.get(name);
     }
 
-    // Adds a new fact and returns true if anything was changed
     addFact(name: string, value: unknown): boolean {
         if (this.facts.get(name) === value) {
             return false;
@@ -24,8 +20,6 @@ class Blackboard {
 }
 
 interface Expert {
-    // Processes the current blackboard by reading and adding facts
-    // Returns true if anything was changed
     process(board: Blackboard): boolean;
 }
 
@@ -83,10 +77,6 @@ class MammalIdentificationExpert implements Expert {
 class Controller {
     constructor (private experts: Expert[]) {}
 
-    // Repeatedly ask all experts for opinions until no further changes are being made
-    // This implementation asks all experts every single time
-    // A more production-ready implementation would add a way for experts to declare 
-    // facts they are interested in, and the controller would notify them accordingly
     solve(board: Blackboard) {
         let changed = true;
         while (changed) {

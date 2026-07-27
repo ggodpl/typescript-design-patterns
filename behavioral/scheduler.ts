@@ -38,20 +38,13 @@ class Scheduler {
     constructor (private executor: TaskExecutor) {}
 
     enqueue(task: Task) {
-        // We return a new promise so the task can be awaited
-        // This ignores the possibility that the task failed (because, in this example, it actually can't)
-        // and can only resolve. For an example of a scheduler that can actually reject,
-        // view the Thread Pool example
         return new Promise(resolve => {
-            // We store the Promise resolution function,
             this.results.set(task, {
                 resolve
             });
 
-            // Push the task into the queue,
             this.tasks.push(task);
 
-            // And schedule
             this.schedule();
         });
     }
@@ -59,17 +52,13 @@ class Scheduler {
     schedule() {
         if (this.tasks.length === 0) return;
 
-        // We take the first task (FIFO)...
         const task = this.tasks.shift()!;
         const result = this.results.get(task);
         if (!result) return;
         
-        // ...execute it...
         const calculated = this.executor.execute(task);
-        // ...resolve the Promise...
         result.resolve(calculated);
 
-        // ...and schedule again
         this.schedule();
     }
 }

@@ -8,7 +8,6 @@ interface Spec<T> {
 abstract class BaseSpec<T> implements Spec<T> {
     abstract isSatisfiedBy(candidate: T): boolean;
     
-    // Boolean algebra specifications
     and(spec: Spec<T>): Spec<T> {
         return new AndSpec(this, spec);
     }
@@ -54,7 +53,6 @@ class Invoice {
     constructor (public overdue: boolean, public sent: boolean, public id: string) {}
 }
 
-// Business rules can now be implemented as specifications...
 class OverdueSpec extends BaseSpec<Invoice> {
     override isSatisfiedBy(candidate: Invoice): boolean {
         return candidate.overdue;
@@ -67,7 +65,6 @@ class SentSpec extends BaseSpec<Invoice> {
     }
 }
 
-// ...making them very easy to read...
 const canSendInvoice = new OverdueSpec().and(new SentSpec().not());
 
 const invoices = [
@@ -77,7 +74,6 @@ const invoices = [
 ];
 
 for (const invoice of invoices) {
-    // ...and easy to use
     if (canSendInvoice.isSatisfiedBy(invoice)) {
         console.log(invoice.id);
     }

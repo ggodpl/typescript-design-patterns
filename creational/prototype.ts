@@ -28,12 +28,9 @@ class Rectangle implements Shape {
 }
 
 class Client {
-    // We take a shape as a prototype
-    // This shape will be cloned if we need a new object
     constructor (private prototype: Shape) {}
 
     createShape(): Shape {
-        // Returns a clone of the prototype, creating a new instance based on the original shape
         return this.prototype.clone();
     }
 }

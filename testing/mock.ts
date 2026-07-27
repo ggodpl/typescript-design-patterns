@@ -18,19 +18,15 @@ class BrokenOrderService {
     }
 }
 
-// If we want to verify if the service is properly called...
 class MockEmailService implements EmailService {
     public emailSent: boolean = false;
-    // ...and if with the correct parameters...
     public lastRecipient?: string;
 
-    // ...we can create a mock version...
     sendConfirmation(recipient: string) {
         this.emailSent = true;
         this.lastRecipient = recipient;
     }
 
-    // ...that can verify if everything works as expected
     verify(expectedRecipient: string) {
         if (!this.emailSent) throw new Error('Expected sendConfirmation() to be called at least once');
         if (this.lastRecipient !== expectedRecipient) throw new Error('Expected ' + expectedRecipient + ' as the recipient, found ' + this.lastRecipient);

@@ -17,20 +17,15 @@ let saving = false;
 parentPort.on('message', async (message) => {
     if (message.type !== 'save') return;
 
-    // If the worker is busy
     while (saving) {
-        // We just wait and try again
         await sleep(100);
     }
     
-    // We mark the worker as busy...
     saving = true;
 
     try {
-        // ...do what we were supposed to do...
         await saveToDatabase();
     } finally {
-        // ...and unmark it
         saving = false;
     }
 });

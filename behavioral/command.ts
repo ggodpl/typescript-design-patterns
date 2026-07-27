@@ -32,12 +32,8 @@ class Radio implements Device {
 }
 
 class TurnOnCommand implements Command {
-    // The command can perform any action we want it to
-    // And can take anything in its constructor
     constructor (private device: Device) {}
 
-    // It just has to have an execute function
-    // which will be ran by the remote controller
     execute() {
         this.device.turnOn();
     }
@@ -59,7 +55,6 @@ class ChangeFrequencyCommand implements Command {
     }
 }
 
-// Holds a command and executes it
 class RemoteController {
     private command?: Command;
 
@@ -76,9 +71,6 @@ class RemoteController {
     }
 }
 
-// The remote controller can execute any command
-// This allows it to easily control both the TV and the radio
-// Without knowing about either's internals
 const remoteController = new RemoteController();
 const tv = new TV();
 const radio = new Radio();

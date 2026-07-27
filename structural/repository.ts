@@ -13,21 +13,17 @@ interface ProductRepository {
 }
 
 class InMemoryProductRepository implements ProductRepository {
-    // Instead of direct database methods (in this case our database is a Map)...
     private products: Map<number, Product> = new Map();
 
-    // ...we create a simple interface that allows us to easily save, modify...
     save(product: Product) {
         this.products.set(product.id, product.clone());
     }
 
-    // ...look up...
     findById(id: number): Product | undefined {
         const product = this.products.get(id);
         return product?.clone();
     }
 
-    // ...or delete entries from our database without having to know how it works internally
     delete(id: number) {
         this.products.delete(id);
     }

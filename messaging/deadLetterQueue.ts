@@ -9,8 +9,6 @@ type Subscriber = (message: Message) => void;
 
 class MessageBroker {
     private subscribers: Set<Subscriber> = new Set();
-    // Sometimes messages may be undeliverable
-    // Keeping them somewhere may be helpful for debugging
     deadLetterQueue: Message[] = [];
 
     subscribe(subscriber: Subscriber) {
@@ -22,16 +20,12 @@ class MessageBroker {
     }
 
     canDeliver(message: Message) {
-        // Common examples of undeliverable messages are messages that are too big...
         return message.size < 1024 
-            // ...or expired messages
             && message.sentAt + message.ttl >= Date.now();
     }
 
     publish(message: Message) {
-        // If a message cannot be delivered...
         if (!this.canDeliver(message)) {
-            // ...we put it in our Dead Letter Queue
             this.deadLetterQueue.push(message);
             return;
         }

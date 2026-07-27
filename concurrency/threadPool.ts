@@ -47,7 +47,6 @@ class ThreadPool<T, R> {
         this.idleThreads.push(thread);
     }
 
-    // We replace dead threads with new ones to keep the original pool size
     private replace(thread: Worker, error?: Error) {
         const task = this.busyThreads.get(thread);
 
@@ -78,14 +77,6 @@ class ThreadPool<T, R> {
     private finishTask(thread: Worker, message: Result<R>) {
         const task = this.busyThreads.get(thread)!;
         
-        // Important:
-        // Return the thread to the pool before invoking callback
-        //
-        // The callback may synchronously call back into the pool
-        // and schedule more work (in which case the thread would appear busy)
-        // or close the pool entirely (and we would miss that thread when
-        // terminating). Instead, we keep an internally consistent state
-        // before handling any client code to avoid reentrance bugs
         this.busyThreads.delete(thread);
         this.idleThreads.push(thread);
 
@@ -114,10 +105,6 @@ class ThreadPool<T, R> {
         }
     }
 
-    // This could be improved by adding a graceful option
-    // Which would prevent adding new tasks first (this.closed = true),
-    // then drain all the remaining tasks,
-    // and after they are all finished, terminate all workers
     async close() {
         this.closed = true;
         await Promise.all([...this.idleThreads, ...this.busyThreads.keys()].map(t => t.terminate()));

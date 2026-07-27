@@ -1,10 +1,7 @@
-// All pipeline operations and the pipeline itself implement the same interface
-// This way we can later chain pipelines
 interface Operation<T> {
     transform(data: T): T;
 }
 
-// A simple operation that uses a callback so we don't have to use classes
 class CallbackOperation<T> implements Operation<T> {
     constructor (private callback: (data: T) => T) {}
 
@@ -21,7 +18,6 @@ class Pipeline<T> implements Operation<T> {
     }
 
     transform(data: T): T {
-        // The data is transformed by transforming it using every pipeline operation one-by-one
         let current = data;
         for (const operation of this.operations) {
             current = operation.transform(current);
@@ -42,7 +38,6 @@ const simpleStringPipeline = new Pipeline<string>([
     })
 ]);
 
-// We can attach pipeline operations later
 simpleStringPipeline.attach(
     new CallbackOperation(data => {
         console.log('Replacing "e" with "a"');
@@ -52,7 +47,6 @@ simpleStringPipeline.attach(
 
 console.log(simpleStringPipeline.transform('   test   '));
 
-// We can also use existing pipelines as operations of new pipelines
 const advancedStringPipeline = new Pipeline<string>([
     simpleStringPipeline,
     new CallbackOperation(data => {

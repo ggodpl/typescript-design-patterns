@@ -9,8 +9,6 @@ class Database {
     }
 }
 
-// This example is also an example of the Builder pattern (specifically, the Fluent Builder)
-// since it builds a new query
 class Query {
     private query: string[] = [];
 
@@ -18,7 +16,6 @@ class Query {
 
     select(...fields: string[]): this {
         this.query.push(`SELECT ${fields.join(', ')}`);
-        // We return self, which allows method chaining
         return this;
     }
 
@@ -42,14 +39,10 @@ class Query {
         return this;
     }
 
-    // Terminating method
-    // After calling this we can no longer chain Query methods
     execute() {
         return this.database.execute(this);
     }
 
-    // Helper method for the database, not central to the example
-    // This is also a terminating method
     getQuery() {
         return this.query.join(' ');
     }

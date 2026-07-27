@@ -11,12 +11,9 @@ class OrderService {
     }
 }
 
-// Instead of creating a full service, we can just create a small stub,
-// which contains the bare minimum functionality to work...
 const emailServiceStub: EmailService = {
     sendConfirmation(recipient: string) {
         console.log('New mail: ' + recipient);
-        // ...and returns a predefined response
         return 'Confirmation e-mail sent!';
     }
 }

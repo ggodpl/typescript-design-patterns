@@ -31,7 +31,6 @@ class VehicleFactory {
 }
 
 const factory = new VehicleFactory();
-// One factory allows us to create multiple different vehicles
 const car = factory.createVehicle(VehicleType.Car);
 const truck = factory.createVehicle(VehicleType.Truck);
 

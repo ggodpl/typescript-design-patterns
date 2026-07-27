@@ -12,7 +12,6 @@ class Person {
     }
 }
 
-// If we combine the Builder pattern with the Fluent Interface pattern, we get a Fluent Builder
 class PersonBuilder {
     private name!: string;
     private age!: number;
@@ -20,7 +19,6 @@ class PersonBuilder {
     private phoneNumber?: string;
     private email?: string;
 
-    // By retuning itself on every setter method, it allows method chaining
     setName(name: string): this {
         this.name = name;
         return this;
@@ -47,12 +45,10 @@ class PersonBuilder {
     }
 
     build() {
-        // After some runtime validation...
         if (this.name === undefined) throw new Error('Name is missing!');
 
         if (this.age === undefined) throw new Error('Age is missing!');
 
-        // ...we can return the constructed Person instance
         return new Person(this.name, this.age, this.address, this.phoneNumber, this.email);
     }
 }

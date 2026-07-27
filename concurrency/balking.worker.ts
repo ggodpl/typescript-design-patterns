@@ -12,16 +12,13 @@ let saving = false;
 
 parentPort.on('message', async (message) => {
     if (message.type !== 'save') return;
-    if (saving) return; // Worker busy, we balk and return early
+    if (saving) return;
 
-    // We mark the worker as busy...
     saving = true;
 
     try {
-        // ...do what we were supposed to do...
         await saveToDatabase();
     } finally {
-        // ...and unmark it
         saving = false;
     }
 });

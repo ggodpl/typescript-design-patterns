@@ -1,9 +1,6 @@
-// If the language we are working with does not support multiple inheritance (like JS and TS),
-// we can use the Twin pattern...
 class EntityLogical {
     private health: number = 100;
     private dead: boolean = false;
-    // ...where instead of using inheritance we use composition and hold instances of other partial classes
     public visualTwin!: EntityVisual;
     public attackingTwin!: EntityAttacking;
 
@@ -21,7 +18,6 @@ class EntityLogical {
         if (damage >= this.health) {
             this.dead = true;
             this.health = 0;
-            // We can still use functions from other twins without issues...
             this.visualTwin.playDeathAnimation();
             return;
         }
@@ -46,7 +42,6 @@ class EntityVisual {
     }
 
     playHurtAnimation() {
-        // ...even inside of other twins
         console.log(`${this.logicalTwin.name}: Playing hurt animation. Health: ${this.logicalTwin.getHealth()}`);
     }
 

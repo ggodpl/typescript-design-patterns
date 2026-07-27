@@ -13,13 +13,11 @@ type ClientMessage =
     | { type: 'acknowledgeClose' };
 
 class AccountActor {
-    // An actor contains its own state it can modify...
     private balance: number = 100;
     private closed: boolean = false;
 
     constructor (private port: MessagePort) {}
 
-    // ...it can react to messages...
     onMessage(message: AccountMessage) {
         if (this.closed) return;
 
@@ -31,9 +29,6 @@ class AccountActor {
                 this.balance -= message.amount;
                 return;
             case 'balance':
-                // ...or send them
-                // Actors can also generally create other actors and communicate with them
-                // The state is never visible or modifiable from the ouside without asking the actor directly
                 this.sendMessage({
                     type: 'balance',
                     balance: this.balance

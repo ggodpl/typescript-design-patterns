@@ -1,12 +1,8 @@
 interface FileSystemElement {
-    // Every file system element knows how to accept a visitor
     accept(visitor: FileSystemVisitor): void;
 }
 
 interface FileSystemVisitor {
-    // And the visitor knows how to visit file system elements
-    // It may or may not know how to visit every single type of an element,
-    // and may choose to skip elements
     visitFile(file: File): void;
     visitDirectory(directory: Directory): void;
 }
@@ -19,8 +15,6 @@ class File implements FileSystemElement {
     }
 }
 
-// Since the directory contains FileSystemElements and is itself a FileSystemElement,
-// this is also an example of the Composite pattern
 class Directory implements FileSystemElement {
     elements: FileSystemElement[] = [];
 
@@ -40,16 +34,9 @@ class ViewVisitor implements FileSystemVisitor {
         console.log('Viewing file: ' + file.name);
     }
 
-    // Pre-order traversal, print parent before children
     visitDirectory(directory: Directory) {
         console.log('Viewing directory: ' + directory.name);
         
-        // The visitor makes the decision whether or not to visit children of a directory
-        // Some implementations move the control to the element itself 
-        // (so a directory would accept all files it contains)
-        // This approach works too, but I chose this one because it allows more control
-        // such as choosing whether the visitor will visit each child (like a filter)
-        // or if we want pre-order or post-order traversal...
         for (const element of directory.elements) {
             element.accept(this);
         }
@@ -61,8 +48,6 @@ class DeleteVisitor implements FileSystemVisitor {
         console.log('Deleting file: ' + file.name);
     }
 
-    // ...which is very useful for some visitors, like this one
-    // Post-order traversal, delete children before the parent
     visitDirectory(directory: Directory) {
         for (const element of directory.elements) {
             element.accept(this);

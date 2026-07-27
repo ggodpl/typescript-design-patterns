@@ -21,7 +21,6 @@ class Order {
     constructor (public id: string, public total: number) {}    
 }
 
-// A simplified database containing both orders and an outbox
 class OrdersDatabase implements Outbox {
     private orders: Map<string, Order> = new Map();
     private outbox: Set<Message> = new Set();
@@ -42,12 +41,10 @@ class OrdersDatabase implements Outbox {
         return this.outbox;
     }
 
-    // Messages can be pushed...
     pushMessage(message: Message) {
         this.outbox.add(message);
     }
 
-    // ...or popped from the outbox 
     popMessage(message: Message) {
         this.outbox.delete(message);
     }
@@ -68,8 +65,6 @@ class OrdersService {
 
         console.log('Creating a new order with ID: ' + id);
 
-        // Production-ready examples would use a single transaction to enter the order and the message,
-        // this way the database cannot fail after adding the order and before adding the message
         this.database.addOrder(order);
         this.database.pushMessage({
             type: MessageType.OrderCreated,
@@ -101,7 +96,6 @@ class FailingBroker implements MessageBroker {
     private count: number = 0;
     
     publish(message: Message): boolean {
-        // For demonstration purposes this broker fails every other time
         if (this.count++ % 2 !== 0) {
             console.log('Message failure.');
             return false;
@@ -122,10 +116,7 @@ class OutboxPublisher {
         }
 
         for (const message of this.outbox.getMessages()) {
-            // If the broker successfully publishes the message...
             if (this.broker.publish(message)) {
-                // ...we delete it from the outbox
-                // This guarantees at-least-once delivery
                 this.outbox.popMessage(message);
             }
         }

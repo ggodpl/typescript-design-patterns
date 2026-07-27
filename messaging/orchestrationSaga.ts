@@ -52,7 +52,6 @@ class Orchestrator {
 
     createOrder() {
         console.log('Creating a new order');
-        // Start the saga by sending the first message
         this.handle({
             type: MessageType.OrderCreated,
             orderId: this.getOrderId()
@@ -60,19 +59,15 @@ class Orchestrator {
     }
 
     addFunds(funds: number) {
-        // Since services are private, we need to send a command to add funds
         this.payment.handle({
             type: CommandType.AddFunds,
             funds
         });
     }
 
-    // The orchestrator accepts messages from services...
     handle(message: Message) {
         switch (message.type) {
             case MessageType.OrderCreated:
-                // ...and sends commands to them
-                // The orchestrator owns the command flow and knows how to respond to every message it receives...
                 this.stock.handle({
                     type: CommandType.ReserveStock,
                     orderId: message.orderId
@@ -122,7 +117,6 @@ class Orchestrator {
 class OrderService implements CommandHandler {
     constructor (private orchestrator: Orchestrator) {}
     
-    // ...which makes services pretty tiny as they only have to worry about their own state...
     handle(command: Command) {
         switch (command.type) {
             case CommandType.CancelOrder:
@@ -130,7 +124,6 @@ class OrderService implements CommandHandler {
                 return;
             case CommandType.CompleteOrder:
                 console.log(`Order ${command.orderId} succeeded`);
-                // ...and sending follow-up messages in responses to commands
                 this.orchestrator.handle({
                     type: MessageType.OrderCompleted,
                     orderId: command.orderId

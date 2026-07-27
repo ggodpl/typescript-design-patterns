@@ -20,52 +20,38 @@ class PooledObject {
     }
 }
 
-// This implementation of the Object Pool is entirely static, but it doesn't have to be
 class ObjectPool {
     private static EXPIRY_TIME = 10000;
     private static locked: Map<PooledObject, number> = new Map();
     private static unlocked: Map<PooledObject, number> = new Map();
 
-    // Gets an object from the pool
     static getObject(): PooledObject {
         const now = Date.now();
-        // If there are any pooled objects that are available for use...
         if (this.unlocked.size > 0) {
-            // ...iterate through them
             for (const [object, time] of this.unlocked.entries()) {
-                // If the object is expired...
                 if (now - time > this.EXPIRY_TIME) {
-                    // ...delete it from the pool
                     this.unlocked.delete(object);
                 } else {
-                    // Otherwise, lock the object...
                     this.unlocked.delete(object);
                     this.locked.set(object, now);
-                    // ...and return it
                     return object;
                 }
             }
         }
 
-        // Otherwise, return a newly created object
         return this.create(now);
     }
 
     static create(now: number): PooledObject {
         const object = new PooledObject();
-        // Since the object can only be created if it's currently needed, we lock it automatically
         this.locked.set(object, now);
         return object;
     }
 
     static release(object: PooledObject) {
-        // If the object was not checked out (locked), it doesn't originate from the pool
-        // and we cannot accept it
         if (!this.locked.has(object)) throw new Error('Object not checked out');
 
-        // Otherwise, we reset the object to a neutral state...
         this.cleanup(object);
-        // ...and unlock it
         this.unlocked.set(object, Date.now());
         this.locked.delete(object);
     }

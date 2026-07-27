@@ -7,12 +7,10 @@ const worker = new Worker(join(import.meta.dirname, 'guardedSuspension.worker'),
     workerData: shared
 });
 
-// This message will get processed
 worker.postMessage({
     type: 'save'
 });
 
-// And so will this one
 worker.postMessage({
     type: 'save'
 });

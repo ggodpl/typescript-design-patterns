@@ -16,7 +16,6 @@ const accountActorWorker = new Worker(join(import.meta.dirname, 'actorModel.work
 accountActorWorker.on('message', async (message: ReplyMessage) => {
     switch (message.type) {
         case 'balance':
-            // We cannot read the balance directly, we can only ask for a report and await it
             console.log('Balance report: ' + message.balance);
             return;
         case 'acknowledgeClose':
@@ -25,7 +24,6 @@ accountActorWorker.on('message', async (message: ReplyMessage) => {
     }
 });
 
-// Instead of invoking methods or calling them directly, we send messages to the actor
 const balanceMessage: AccountMessage = {
     type: 'balance'
 }

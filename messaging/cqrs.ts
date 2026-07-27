@@ -24,16 +24,11 @@ type QueryReturnType = {
 class Account {
     constructor (public accountId: string, public name: string, public funds: number) {}
 
-    // Since the database is in-memory, we add a cloning method to prevent state mutation
     clone() {
         return new Account(this.accountId, this.name, this.funds);
     }
 }
 
-// A simplified database
-// In actual CQRS implementations the write and read databases are separate,
-// allowing you to scale one if it becomes a bottleneck (for example in a read-heavy
-// applicaton the read database could be scaled earlier than the write one)
 class Database {
     private accounts: Map<string, Account> = new Map();
 
@@ -51,7 +46,6 @@ class Database {
     }
 }
 
-// All commands (writes) are handled by command handlers
 class CommandHandler {
     constructor (private database: Database) {}
 
@@ -72,7 +66,6 @@ class CommandHandler {
     }
 }
 
-// All queries (reads) are handled by query handlers
 class QueryHandler {
     constructor (private database: Database) {}
 
@@ -100,7 +93,6 @@ class Dispatcher {
         this.queryHandler = new QueryHandler(this.database);
     }
 
-    // Dispatcher dispatches the commands to appropriate command handlers...
     command(command: Command) {
         switch (command.type) {
             case CommandType.DepositMoney:
@@ -112,7 +104,6 @@ class Dispatcher {
         }
     }
 
-    // ...and queries to appropriate query handlers
     query<T extends Query>(query: T): QueryReturnType[T['type']] {
         switch (query.type) {
             case QueryType.GetFunds:

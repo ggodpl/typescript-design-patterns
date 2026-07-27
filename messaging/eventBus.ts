@@ -7,7 +7,6 @@ interface Subscriber<E extends Event> {
 }
 
 class EventBus {
-    // We store the subscribers keyed by the event constructor
     private subscribers: Map<EventConstructor<any>, Set<Subscriber<any>>> = new Map();
 
     subscribe<E extends Event>(eventType: EventConstructor<E>, subscriber: Subscriber<E>) {
@@ -24,7 +23,6 @@ class EventBus {
         subscribers.delete(subscriber);
     }
 
-    // This allows us to easily find all subscribers without having to add keys, tags, or other discriminants to our events
     publish<E extends Event>(event: E) {
         const subscribers = this.subscribers.get(event.constructor as EventConstructor<E>) ?? [];
         for (const subscriber of subscribers) {
@@ -41,14 +39,12 @@ class DocumentDeleted implements Event {
     constructor (public documentName: string) {}
 }
 
-// We can create subscribers that support a specific event...
 class DocumentUpdateSubscriber implements Subscriber<DocumentUpdated> {
     handle(e: DocumentUpdated) {
         console.log('DocumentUpdateSubscriber | Document updated: ' + e.documentName)
     }
 }
 
-// ...or multiple
 class DocumentSubscriber implements Subscriber<DocumentUpdated | DocumentDeleted> {
     handle(e: DocumentUpdated | DocumentDeleted) {
         if (e instanceof DocumentUpdated) {

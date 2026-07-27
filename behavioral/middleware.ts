@@ -6,11 +6,7 @@ class Client<Req, Res> {
     handle(request: Req, response: Res) {
         let index = -1;
 
-        // The dispatch function will run a specific middleware, based on the index provided
-        // In most cases middlewares should use an asynchronous dispatcher
         const dispatch = (i: number) => {
-            // If the same next function is called twice, we throw an error
-            // Otherwise we could run the same middleware multiple times which could break stuff
             if (i <= index) throw new Error('next() called multiple times');
 
             index = i;
@@ -19,11 +15,9 @@ class Client<Req, Res> {
 
             if (!middleware) return;
 
-            // The next function has a specified index to protect the middlewares from draining when next() is double-called
             middleware(request, response, () => dispatch(i + 1));
         }
 
-        // We start the first middleware
         dispatch(0);
     }
 }

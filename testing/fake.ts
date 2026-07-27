@@ -10,14 +10,12 @@ class OrderService {
     }
 }
 
-// Since we don't need a full e-mail service for testing, we can create a fake one...
 class FakeEmailService implements EmailService {
     constructor (private recipients: Map<string, {
         send: (mail: string) => void
     }>) {}
 
     sendConfirmation(recipient: string) {
-        // ...that greatly simplifies the functionality
         if (this.recipients.has(recipient)) return;
 
         const confirmationMail = 'Order has been confirmed';

@@ -24,17 +24,12 @@ class Subject {
     }
 
     notify() {
-        // Notifies all observers. This example uses an explicit subject,
-        // but production-ready implementations may have one notifier for
-        // multiple subjects. In this case, it's important to store what
-        // observer is observing what subject, so we can call only the interested observers
         for (const observer of this.observers) {
             observer.update();
         }
     }
 }
 
-// A convenience wrapper so we can use callbacks instead of classes
 class CallbackObserver implements Observer {
     constructor (private callback: () => void) {}
 

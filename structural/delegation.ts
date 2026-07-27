@@ -12,7 +12,6 @@ class Report {
     constructor (private reportName: string, private printer: Printer) {}
 
     generate() {
-        // The print function is delegated to the printer
         this.printer.print(this.reportName);
     }
 }

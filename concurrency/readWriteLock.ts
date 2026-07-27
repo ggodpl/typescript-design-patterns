@@ -1,7 +1,6 @@
 import { Worker } from 'node:worker_threads';
 import { join } from 'node:path';
 
-// The first value will be a reader counter, the second will be a write flag
 const shared = new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT * 2);
 
 async function startWorkers() {

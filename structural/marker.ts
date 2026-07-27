@@ -1,3 +1,5 @@
+// Unfortunately, this file would make absolutely no sense without comments so I have to leave them here
+
 // Since TypeScript interfaces are only structural (and do not exist at runtime),
 // the inheritance-based marker interface pattern (or anti-pattern, dependending who you ask)
 // can only be approximated, for example using classes instead

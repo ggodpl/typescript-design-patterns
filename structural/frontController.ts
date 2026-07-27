@@ -2,14 +2,12 @@ interface Handler {
     handle(): void;
 }
 
-// If we have a system...
 class HandlerA implements Handler {
     handle() {
         console.log('Handler A executed');
     }
 }
 
-// ...that has multiple different handlers...
 class HandlerB implements Handler {
     handle() {
         console.log('Handler B executed');
@@ -20,7 +18,6 @@ class Dispatcher {
     private handlerA: Handler = new HandlerA();
     private handlerB: Handler = new HandlerB();
 
-    // ...we can create a dispatcher, which chooses the path...
     dispatch(request: string) {
         if (request === 'a') {
             this.handlerA.handle();
@@ -32,7 +29,6 @@ class Dispatcher {
     }
 }
 
-// ...and a front controller, which centralizes requests...
 class FrontController {
     constructor (private dispatcher: Dispatcher) {}
     
@@ -45,7 +41,6 @@ class FrontController {
         console.log('Requested resource: ' + request);
     }
 
-    // ...and can perform additional actions on every request
     dispatchRequest(request: string) {
         this.trackRequest(request);
 

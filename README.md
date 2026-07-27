@@ -1,13 +1,13 @@
 # Design and Software Architecture Patterns in TypeScript
 A collection of 88 software design, architecture, concurrency, functional, and distributed systems patterns implemented in TypeScript.
 
+[![wakatime](https://wakatime.com/badge/github/ggodpl/typescript-design-patterns.svg)](https://wakatime.com/badge/github/ggodpl/typescript-design-patterns)
+
 The goal I have with this repository is to provide simple and (hopefully) readable examples of different design patterns and their implementations. Each is implemented as a standalone TypeScript file with no dependencies (except for concurrency patterns, which use `node:worker_threads` to achieve parallelism and `node:path` for spawning the worker). The worker files in the concurrency folder are not runnable directly, they have to be started by their respective main file (i.e. they have to *be a worker*).
 
 This repository is meant for *educational purposes* and the provided examples are **NOT** production-ready code. In some of the files I included information on what a production-ready implementation would include, but it does not mean that patterns that don't have these disclaimers can be copy and pasted into your production codebases. They are intended to be read and understood so you can apply them intentionally in your next project. All examples simplify the infrastructure as much as possible, focusing only on the actual pattern.
 
 All of the files contain lots of comment which can hopefully help you understand why these patterns are designed that way. If you want to let the code speak for itself without me talking over it, you can view the [no-comments branch](https://github.com/ggodpl/typescript-design-patterns/tree/no-comments).
-
-Also, *ALL* of the code and comments are human-written. Since a lot of AI-generated code is heavily commented and very verbose, some people may flag it as vibecoded examples, but every single example was written and commented by me. The reason it looks like this is because it's meant to be educational and easily readable, so it doesn't use any clever shorthands, short variable names or a lot of syntactic sugar, which makes it look a little unnatural.
 
 ## Feedback
 I am always open to all forms of feedback! If you spot a mistake or a bug in any of the examples, or you simply want to contribute, feel free to open Issues or Pull Requests.

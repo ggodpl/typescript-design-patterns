@@ -1,5 +1,5 @@
 # Design and Software Architecture Patterns in TypeScript
-A collection of 88 software design, architecture, concurrency, functional, and distributed systems patterns implemented in TypeScript.
+A collection of 89 software design, architecture, concurrency, functional, and distributed systems patterns implemented in TypeScript.
 
 [![wakatime](https://wakatime.com/badge/github/ggodpl/typescript-design-patterns.svg)](https://wakatime.com/badge/github/ggodpl/typescript-design-patterns)
 
@@ -59,6 +59,7 @@ Here is a list of all covered patterns. It also has more formal descriptions of 
 | Flyweight | Reduces memory usage by sharing common state | [`flyweight.ts`](structural/flyweight.ts) |
 | Front Controller | Centralizes request handling | [`frontController.ts`](structural/frontController.ts) |
 | Marker | Uses empty interfaces (or, in this case, classes) to attach metadata | [`marker.ts`](structural/marker.ts) |
+| Mixin | Adds reusable behavior to a class through functions that extend a base class, allowing a form of multiple inheritance | [`mixin.ts`](structural/mixin.ts) |
 | Module | Groups several related elements into a single entity. This specific implementation is a revealing module, which exposes some of these elements publicly | [`module.ts`](structural/module.ts) |
 | Proxy | Controls access to another object | [`proxy.ts`](structural/proxy.ts) |
 | Registry | Provides centralized object lookup | [`registry.ts`](structural/registry.ts) |
